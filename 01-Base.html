@@ -29,6 +29,7 @@
 			}
 		</style>
 	</head>
+	<body>
 	<!-- Navigation Bar -->
 	<!--004 NavbarBackgroundColor-->
 	<!--Modify the hexcode after background-color to another color such as 000099 to make it into "color:#000099"-->
@@ -65,7 +66,7 @@
 		<!--tableName is a list/array, place the names of the layers within the map in that array so it looks like ["layer1", "layer2", "layer3", ...] for number of layers-->
 		<!--replace the url within the quotes to the vizjson obtained from cartodb by pressing visualize and copy pasting the data on the right side-->
 		var layerSource = [{
-			//MapName
+			//MapName: Sewer Sheets/Grading Sheets
 			tableName: ["sewergrid"],
 			vizjson: "https://oakland.cartodb.com/u/oakland-admin/api/v2/viz/5a072d22-2a5c-11e5-a61d-42010a149c0c/viz.json"
 		}]
@@ -102,8 +103,8 @@
 			.error(function(err){
 				console.log("error: " + err);
 			});
-		initSearchBox();
 		
+		initSearchBox();
 		<!-- Functions -->
 		//not fully optimized
 		<!--Geocoder Start-->
@@ -130,6 +131,7 @@
 				map_object.addLayer(marker);
 			});
 			
+			//Band-aid fix for search not triggering when enter is pressed, in the case that the user does not select a choice, will select first choice within window
 			$('#pac-input').keypress(function(e){
 				if(e.which == 13){
 					google.maps.event.trigger(searchBox,'place_changed');

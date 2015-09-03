@@ -1,0 +1,85 @@
+The next thing you might want to do is have more than one layer added to your map.
+In this case we will be modifying 
+	
+	cartodb.createLayer(map_object, layerSource[0].vizjson)
+		.addTo(map_object)
+		.done(function(layer){
+			var sublayer = layer.getSubLayer(0);
+			sublayers.push(sublayer);
+		})
+		.error(function(err){
+			console.log("error: " + err);
+		});
+
+and 
+
+	var layerSource = [{
+		//MapName: Sewer Sheets/Grading Sheets
+		tableName: ["sewergrid"],
+		vizjson: "https://oakland.cartodb.com/u/oakland-admin/api/v2/viz/5a072d22-2a5c-11e5-a61d-42010a149c0c/viz.json"
+	}]
+		
+Case 1: multiple layers within the single map/vizjson you added
+	If you have tried to add a map with multiple layers but can only access the data from one layer, this is your solution.
+
+	replace "cartodb.createLayer" with 
+		cartodb.createLayer(map_object, layerSource[0].vizjson)
+			.addTo(map_object)
+			.done(function(layer){
+				var sublayer;
+				for(var i = 0; i < 10; i++){
+					sublayer = layer.getSubLayer(i);
+					sublayers.push(sublayer);
+				}
+			})
+			.error(function(err){
+				console.log("error: " + err);
+			});
+	modify the 10 with the number of layers within the map/vizjson	
+	then document the changes into the "var layerSource = [{"
+		modify 
+			tableName: ["sewergrid"],
+		to 
+			tableName: ["sewergrid", "pipes", "sublayer03", "sublayer05"],
+		use the actual names of the layers in the order they're listed [1,2,3,4,5,6,7,8,9,10] on cartodb
+	documentation does not have to be done for the code to work(in this case), it is just highly recommended
+	it is needed if you want control over the visibility of the layers afterwards
+	
+Case 2: multiple maps/vizjsons to add
+	So you want to add data from different sources eh?
+	
+	Duplicate the cartodb.createLayer for every vizjson you have and increment the layerSource[0] > layerSource[1] and onwards
+	so in the case of 2 vizjsons it should look like
+		cartodb.createLayer(map_object, layerSource[0].vizjson)
+		.addTo(map_object)
+		.done(function(layer){
+			var sublayer = layer.getSubLayer(0);
+			sublayers.push(sublayer);
+		})
+		.error(function(err){
+			console.log("error: " + err);
+		});
+		cartodb.createLayer(map_object, layerSource[1].vizjson)
+		.addTo(map_object)
+		.done(function(layer){
+			var sublayer = layer.getSubLayer(0);
+			sublayers.push(sublayer);
+		})
+		.error(function(err){
+			console.log("error: " + err);
+		});
+	You must modify the layerSource in this case to add more vizjsons
+	just add a ",{data}" before the ]
+	it should look like this
+		var layerSource = [{
+			//MapName: Sewer Sheets/Grading Sheets
+			tableName: ["sewergrid"],
+			vizjson: "https://oakland.cartodb.com/u/oakland-admin/api/v2/viz/5a072d22-2a5c-11e5-a61d-42010a149c0c/viz.json"
+		},{
+			//MapName: Map02
+			tableName: ["sublayer01"],
+			vizjson: "link/viz.json"
+		}]
+	At the very least the vizjson needs to be added or else the code will not run
+	Combine the information here with Case 1 to add multiple vizjsons with multiple layers within each vizjson.
+	See https://github.com/gisoakland/DEC for an example that uses both techniques 
