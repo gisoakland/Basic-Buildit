@@ -1,0 +1,158 @@
+<!--open in a browser-->
+<html>
+	<head>
+		<style type="text/css">
+			pre{
+				border: solid 1px #dedee3;
+				white-space: pre-wrap;
+				background: #f3f3f7
+			}
+			code{
+				border: solid 1px #dedee3;
+				background: #f3f3f7
+			}
+		</style>
+	</head>
+	<body>
+	Get the code <a href="https://github.com/gisoakland/Basic-Buildit/blob/master/01-Base.html" target="_blank">here</a>
+	<br>Open the code in any text editor, suggested <a href="https://notepad-plus-plus.org/" target="_blank">notepad++</a>
+	<br>Use Ctrl+F to find the code fragment listed here within the code
+	<br>
+	<h3>Change the layers/vizjson to your map/layers</h3>
+	Modify this code
+	<pre>
+	var layerSource = [{
+		//MapName: Sewer Sheets/Grading Sheets
+		tableName: ["sewergrid"],
+		vizjson: "https://oakland.cartodb.com/u/oakland-admin/api/v2/viz/5a072d22-2a5c-11e5-a61d-42010a149c0c/viz.json"
+	}]</pre>
+	Change the text after <code>//MapName:</code> to the name of your map on cartodb for documentation purposes (This keeps it easy to reference the map on cartodb for future changes)
+	<br>
+	<br>Modify <code>tableName:["sewergrid"],</code> to a list of the layers contained within your map so it looks like <code>tableName:["layer1", "layer2", "layer3", "layer4"],</code> for any number of layers
+	<br>&emsp;-Layers must be inputed as they are listed in cartodb
+	<br>&emsp;-You may have to go to <a href="02-MoreMapLayers.html">Lesson 2</a> for the code to implement data access to more layers
+	<br>
+	<br>Change the vizjson <code>vizjson:"Your Link Here"</code> to the one you obtained from cartodb
+	<br>
+	<h4>Obtaining a vizjson from CartoDB</h4>
+	Open up a map on CartoDB
+	<br>Change to Map View if it isn't in map view already
+	<br>If you opened a layer instead of a map, create a map using that layer, and save it
+	<br>Click Publish on the top right of the window
+	<br>Copy the link on the rightmost window
+	<img src="images/CartoDB.PNG" style="height:400px">
+	
+	<hr>
+	<h3>Styling the Page</h3>
+	TabName
+	<br><img src="images/tabname.PNG" style="height:50px">
+	<pre>	&lttitle&gtCity Of Oakland Interactive Map&lt/title&gt </pre>
+	Change the text within the title tags to change the name of the tab
+	<br>
+	<br>Title 
+	<br><img src="images/Title.PNG">
+	<pre>	&ltdiv class="navbar-brand" style="color:#777777"&gtSewer Sheets / Grade Sheets&lt/div&gt</pre>
+	Change the text within the div tags to change the name of the map
+	<br>
+	<br>Coloring the navigation bar
+	<br>Find some color codes at <a href="http://www.w3schools.com/tags/ref_colorpicker.asp">http://www.w3schools.com/tags/ref_colorpicker.asp</a>
+	<img src="images/navbar.PNG">
+	<pre>
+	&ltnav class="navbar navbar-default" style="margin:0; border:0; padding-right:0px; background-color:#FFFFFF"&gt
+		&ltdiv class="navbar-header" style=""&gt
+			&ltdiv class="navbar-brand" style="color:#777777"&gtSewer Sheets / Grade Sheets&lt/div&gt
+		&lt/div&gt
+		&ltform class="navbar-form"&gt
+			&ltinput type="text" class="form-control" placeholder="Search By Address" id="pac-input" 		
+			style="width:450px; background-color:#FFFFFF; color:#777777; border-color:#CCCCCC"&gt	
+		&lt/form&gt
+	&lt/nav&gt</pre>
+	Replace all instances of <code>background-color:"#"</code>, <code>color:"#"</code>, and <code>border-color:"#"</code> to colors you like
+	<pre>
+	#pac-input::-webkit-input-placeholder { 
+		color: gray; 
+	}
+	#pac-input:-moz-placeholder { 
+		color: gray; 
+	}
+	#pac-input::-moz-placeholder { 
+		color: gray; 
+	}
+	#pac-input:-ms-input-placeholder { 
+		color: gray; 
+	}</pre>
+	You may also use word colors instead of hexcode, this fragment above controls the placeholder text color, it needs to be all the same color, it is only for browser compatibility
+	<pre>
+	html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-in,
+	html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-out{ 
+		color: black;
+		background-color: white;
+	}</pre>
+	This controls the color of the Zoom Buttons, change them the same way as the navbar
+	<br>
+	<br>As a note Hexcodes are a # sign followed by 6 digits/letters(A to F) and word colors do not require the # sign
+	<hr>
+	You may also want to remove the Address Search entirely, if for some reason you don't need it
+	<br>To do this you need to remove these chunks of code
+	<pre>
+	&ltform class="navbar-form"&gt
+		&ltinput type="text" class="form-control" placeholder="Search By Address" id="pac-input" 
+		style="width:450px; background-color:#FFFFFF; color:#777777; border-color:#CCCCCC"&gt	
+	&lt/form&gt</pre>
+	<pre>
+	#pac-input::-webkit-input-placeholder { 
+		color: gray; 
+	}
+	#pac-input:-moz-placeholder { 
+		color: gray; 
+	}
+	#pac-input::-moz-placeholder { 
+		color: gray; 
+	}
+	#pac-input:-ms-input-placeholder { 
+		color: gray; 
+	}</pre>
+	<pre>initSearchBox();</pre>
+	And the entire block contained within the <code>&lt!--Geocoder Start--&gt</code> and <code>&lt!--Geocoder End--&gt</code>
+	
+	<a id="show_id" onclick="document.getElementById('spoiler_id').style.display=''; document.getElementById('show_id').style.display='none';" class="link" style="color:blue">[Show]<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></a><span id="spoiler_id" style="display: none"><a onclick="document.getElementById('spoiler_id').style.display='none'; document.getElementById('show_id').style.display='';" class="link" style="color:blue">[Hide]</a><br>
+	<pre>
+&lt!--Geocoder Start--&gt
+	function initSearchBox(){
+		var bounds = map_object.getBounds();
+		var latlngSW = new google.maps.LatLng(bounds._southWest.lat, bounds._southWest.lng);
+		var latlngNE = new google.maps.LatLng(bounds._northEast.lat, bounds._northEast.lng);
+		var defaultBound = new google.maps.LatLngBounds();
+		defaultBound.extend(latlngSW);
+		defaultBound.extend(latlngNE);
+		
+		var searchBox = new google.maps.places.SearchBox(document.getElementById('pac-input'), {bounds: defaultBound});
+		var marker = null;
+		google.maps.event.addListener(searchBox, 'places_changed', function(){
+			var place = searchBox.getPlaces()[0];
+			if(!place.geometry){
+				return;
+			}
+			if(marker != null){
+				map_object.removeLayer(marker);
+			}
+			map_object.setView(new L.LatLng(place.geometry.location.lat(), place.geometry.location.lng()), 17);
+			marker = new L.marker([place.geometry.location.lat(), place.geometry.location.lng()],{clickable:false});
+			map_object.addLayer(marker);
+		});
+		
+		//Band-aid fix for search not triggering when enter is pressed, in the case that the user 
+		does not select a choice, will select first choice within window
+		$('#pac-input').keypress(function(e){
+			if(e.which == 13){
+				google.maps.event.trigger(searchBox,'place_changed');
+				return false;
+			}
+		});
+	}
+&lt!--Geocoder End--&gt
+	</pre>
+	</span>
+	
+	</body>
+</html>

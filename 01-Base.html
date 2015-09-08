@@ -1,20 +1,6 @@
-<!--This is your super Basic html which only features your map, a title, and an address search locator-->
-<!--I'll keep it simple and include a navigation method and directions to get to the fields that may need to be changed-->
-<!--Search the Values below to get to the selected areas to change-->
-
-<!--Necessary Info-->
-	<!--001 TabName-->
-	<!--002 Title-->
-	<!--003 vizJson-->
-
-<!--Optional-->
-	<!--004 NavbarBackgroundColor-->
-	<!--005 NavbarTextColor-->
 <!DOCTYPE html>
 <html>
 	<head>
-		<!--001 TabName-->
-		<!--Change the Text within the <title></title> to name your tab-->
 		<title>City Of Oakland Interactive Map</title>
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -27,22 +13,31 @@
 				padding: 0;
 				margin: 0;
 			}
+			#pac-input::-webkit-input-placeholder { 
+				color: gray; 
+			}
+			#pac-input:-moz-placeholder { 
+				color: gray; 
+			}
+			#pac-input::-moz-placeholder { 
+				color: gray; 
+			}
+			#pac-input:-ms-input-placeholder { 
+				color: gray; 
+			}
+			html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-in ,html body .leaflet-control-container .leaflet-top .leaflet-control-zoom a.leaflet-control-zoom-out{ 
+				color: black;
+				background-color: white;
+			}
 		</style>
 	</head>
 	<body>
-	<!-- Navigation Bar -->
-	<!--004 NavbarBackgroundColor-->
-	<!--Modify the hexcode after background-color to another color such as 000099 to make it into "color:#000099"-->
 	<nav class="navbar navbar-default" style="margin:0; border:0; padding-right:0px; background-color:#FFFFFF">
 		<div class="navbar-header" style="">
-			<!--002 Title-->
-			<!--Modify the text within the div tags <div class="navbar-brand"></div> to display the title of the map-->
-			<!--005 navbarTextColor-->
-			<!--modify the hexcode after color:# to another color such as CC00FF to make it into "color:#CC00FF"-->
 			<div class="navbar-brand" style="color:#777777">Sewer Sheets / Grade Sheets</div>
 		</div>
 		<form class="navbar-form">
-			<input type="text" class="form-control" placeholder="Search By Address" id="pac-input" style="width:450px">	
+			<input type="text" class="form-control" placeholder="Search By Address" id="pac-input" style="width:450px; background-color:#FFFFFF; color:#777777; border-color:#CCCCCC">	
 		</form>
 	</nav>
     <div id="map"></div>
@@ -56,15 +51,12 @@
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
+	<script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     
-    <script>
+	<script>
 	window.onload = function() {
 		var user = 'oakland-admin';
-		<!--003 vizJson-->
-		<!--add the cartodb map name above table name after the // to keep a record of the location on cartodb-->
-		<!--tableName is a list/array, place the names of the layers within the map in that array so it looks like ["layer1", "layer2", "layer3", ...] for number of layers-->
-		<!--replace the url within the quotes to the vizjson obtained from cartodb by pressing visualize and copy pasting the data on the right side-->
+		
 		var layerSource = [{
 			//MapName: Sewer Sheets/Grading Sheets
 			tableName: ["sewergrid"],
