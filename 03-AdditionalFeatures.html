@@ -1,0 +1,163 @@
+<!--open in a browser-->
+<html>
+	<head>
+		<style type="text/css">
+			pre{
+				border: solid 1px #dedee3;
+				white-space: pre-wrap;
+				background: #f3f3f7
+			}
+			code{
+				border: solid 1px #dedee3;
+				background: #f3f3f7
+			}
+		</style>
+	</head>
+	<body>
+	<h3>Adding a layer toggle</h3>
+	Add this to the css, between the <code>&ltstyle type="text/css"&gt</code> and <code>&lt/style&gt</code>
+	<pre>
+	.toggle.ios, .toggle-on.ios, .toggle-off.ios{
+		border-radius:20px;
+	}
+	.toggle.ios .toggle-handle{
+		border-radius: 20px;
+	}
+	.fast .toggle-group{
+		transition: left 0.1s;
+		-webkit-transition: left 0.1s;
+	}
+	.modal-dialog.modal-sm{
+		margin-top: 60px;
+		margin-right: 10px;
+		width: 360px; /*needed to increase modal size because title of first layer was too long*/
+	}
+	.modal.fade .modal-dialog {
+		-webkit-transform: scale(0.1);
+		-moz-transform: scale(0.1);
+		-ms-transform: scale(0.1);
+		transform: scale(0.1);
+		top: 45px;
+		left: 100px;
+		opacity: 0.7;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	.modal.fade.in .modal-dialog {
+		-webkit-transform: scale(1);
+		-moz-transform: scale(1);
+		-ms-transform: scale(1);
+		transform: scale(1);
+		-webkit-transform: translate3d(-100px, -45px, 0);
+		transform: translate3d(-100px, -45px, 0);
+		opacity: 1;
+	}
+	.modal-backdrop, .modal-backdrop.fade.in{
+		opacity:0;
+	}</pre>
+	and this to the navbar between the <code>&lt/form&gt</code> and <code>&lt/nav&gt</code>
+	<pre>
+	&ltform class="navbar-form pull-right"&gt
+		&ltbutton type="button" class="btn btn-primary" id="layerModal"&gt
+			A BUTTON
+		&lt/button&gt
+	&lt/form&gt</pre>
+	we can further improve it by replacing "A BUTTON" with an icon from <a href="http://getbootstrap.com/components/" target="_blank">here</a>
+	<pre>
+	&ltspan class="glyphicon glyphicon-th-list" aria-hidden="true"&gt&lt/span&gt</pre>
+	Just replace <code>class=""</code> with the icon name from the link
+	<br>Under <code>&ltdiv id="map"&gt&lt/div&gt</code> Paste
+	<pre>
+	&ltdiv id="myModal" class="modal fade" role="dialog"&gt
+		&ltdiv class="modal-dialog modal-sm"&gt
+			&ltdiv class="modal-content"&gt
+				&ltdiv class="modal-header" style="padding:10px"&gt
+					&ltbutton type="button" class="close" data-dismiss="modal"&gt&times;&lt/button&gt
+					&lth4 class="modal-title"&gtToggle Layers&lt/h4&gt
+				&lt/div&gt
+				&ltdiv class="modal-body" style="padding:10px"&gt
+					&ltdiv class="checkbox"&gt
+						&lt!-- Value should be where your layer will be stored in the sublayer array--&gt
+						&lt!-- add "checked" if you want to have the layer visible when loaded, if you don't want the layer visible you will also need to sublayer.hide() it when you load it in--&gt
+						&ltinput name="layerselect" value="0" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;gisadmin_sidewalkdamageapn_citywide&ltbr&gt
+						&ltinput name="layerselect" value="1" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;sewergrid&ltbr&gt
+						&ltinput name="layerselect" value="2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;sewerbasin&ltbr&gt
+					&lt/div&gt
+				&lt/div&gt
+				&ltdiv class="modal-footer" style="padding:5px; padding-right:20px"&gt
+					&ltbutton type="button" class="btn btn-default btn-sm" data-dismiss="modal"&gtClose&lt/button&gt
+				&lt/div&gt
+			&lt/div&gt
+		&lt/div&gt
+	&lt/div&gt</pre>
+	Modify this code by copy and pasting or deleting <code>&ltinput name="layerselect" value="2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt &emsp;sewerbasin&ltbr&gt</code>
+	<br>Just increment the value for every additional layer you added to the map in the same order they are loaded in with cartodb.createlayer and make sure to name the layer exactly the same way as it is named on cartodb and where you add more layers to a map
+	<br>add <code>checked</code> if the layer is not hidden when loaded
+	<br>
+	<br>If you want a layer hidden on load in the <code>cartodb.createLayer</code>
+	<br>Do a <code>sublayer.hide();</code> after 
+	<pre>
+	sublayer = layer.getSubLayer(n);
+	sublayers.push(sublayer);</pre>
+	<br>
+	<br>Okay now that we've added the buttons, toggles, and windows, we need to wire up the objects so they do something when clicked
+	<br>Above <code>&lt!--Functions--&gt</code> add in 
+	<pre>
+	$('#layerModal').click(function(){
+		$('#myModal').modal();
+	});
+	
+	//class for toggles, 
+	$('input[name="layerselect"]').change(function(){
+		if($(this).is(":checked")){
+			sublayers[this.value].show();
+		}else{
+			sublayers[this.value].hide();
+		}
+	});</pre>
+	<hr>
+	<h3>Adding a basic query</h3>
+	This allows you to search by 1 or more fields within 1 layer depending on how it is set up
+	<br>Between the <code>&lt/form&gt</code> and the <code>&lt/nav&gt</code> place
+	<pre>
+	&ltform class="navbar-form pull-right" style="border:0; margin-bottom:8px; margin-top: 8px; margin-right:5px; margin-left:0px; padding:0px; min-width:380px;height:34px"&gt
+		&ltinput type="text" class="form-control" placeholder="Search By Apn" id="textBox" style="margin:0px; margin-bottom:0px; width:380"&gt
+		&ltinput type="button" class="btn btn-primary" value="Find" id="Find"&gt
+		&ltinput type="button" class="btn btn-primary" value="Clear" id="Clear"&gt
+	&lt/form&gt</pre>
+	And in the buttons area above <code>&lt!--Functions--&gt</code> place
+	<pre>
+	$('#Find').click(function(){
+		var newQuery = "SELECT * FROM " + layerSource[0].tableName[0] + " WHERE apn = " + "'" + document.getElementById('textBox').value + "'";
+		createQuery(newQuery, sublayers[0]);
+	});
+	
+	$('#Clear').click(function(){
+		var newQuery = "SELECT * FROM " + layerSource[0].tableName[0];
+		createQuery(newQuery, sublayers[0]);
+	});</pre>
+	target the layer we want to modify, we should know which layer we pushed onto the array sublayers and we can place the actual layer name instead of <code>layerSource[0].tableName[0];</code>
+	<br>If the layer number is not known, use basic counting to figure out when we put the layer in
+	<br>
+	<br>Lastly paste this code above the <code>&lt/script&gt</code>
+	<pre>
+	&lt!--Query Start--&gt	
+	//re-written, this is all you need
+	//still needs to be in main/onload unless you pass in the mapobject and the username or the username could just be a static
+	//requires full query statement "Select * From tableName WHERE column = 'data'" and the layer object
+	function createQuery(query, myLayer){
+		var sql = new cartodb.SQL({user});
+		myLayer.setSQL(query);
+		sql.getBounds(query).done(function(bounds){
+			map_object.fitBounds(bounds, {maxZoom:17});
+		})
+		return;
+	}
+	&lt!--Query End--&gt</pre>
+	See <a href="https://github.com/gisoakland/LayerSelector/blob/master/SidewalkDmg.html">this</a> for an example
+	</body>
+</html>

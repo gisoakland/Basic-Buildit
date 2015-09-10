@@ -32,15 +32,15 @@
 	<br>&emsp;-Layers must be inputed as they are listed in cartodb
 	<br>&emsp;-You may have to go to <a href="02-MoreMapLayers.html">Lesson 2</a> for the code to implement data access to more layers
 	<br>
-	<br>Change the vizjson <code>vizjson:"Your Link Here"</code> to the one you obtained from cartodb
+	<br>Change the vizjson <code>vizjson:"Your Link Here"</code> to the one you obtained from cartodb, see below for instructions on how to get a vizjson from cartodb
 	<br>
 	<h4>Obtaining a vizjson from CartoDB</h4>
 	Open up a map on CartoDB
 	<br>Change to Map View if it isn't in map view already
-	<br>If you opened a layer instead of a map, create a map using that layer, and save it
+	<br>If you opened a layer instead of a map, create a map using that layer and save it
 	<br>Click Publish on the top right of the window
 	<br>Copy the link on the rightmost window
-	<img src="images/CartoDB.PNG" style="height:400px">
+	<br><img src="images/CartoDB.PNG" style="height:400px">
 	
 	<hr>
 	<h3>Styling the Page</h3>
@@ -56,7 +56,7 @@
 	<br>
 	<br>Coloring the navigation bar
 	<br>Find some color codes at <a href="http://www.w3schools.com/tags/ref_colorpicker.asp">http://www.w3schools.com/tags/ref_colorpicker.asp</a>
-	<img src="images/navbar.PNG">
+	<br><img src="images/navbar.PNG">
 	<pre>
 	&ltnav class="navbar navbar-default" style="margin:0; border:0; padding-right:0px; background-color:#FFFFFF"&gt
 		&ltdiv class="navbar-header" style=""&gt
@@ -91,6 +91,21 @@
 	This controls the color of the Zoom Buttons, change them the same way as the navbar
 	<br>
 	<br>As a note Hexcodes are a # sign followed by 6 digits/letters(A to F) and word colors do not require the # sign
+	<hr>
+	Changing the Basemap
+	<br>Find this code block
+	<pre>
+	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		maxZoom:22,
+		maxNativeZoom:18 //zoom level to scale additional zoom layers
+		}).addTo(map_object);</pre>
+	And replace the link <code>http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png</code> and attribution to a map that you like from <a href="http://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri" target="_blank">Esri Leaflet</a>, just copy and paste from there
+	<br>You may also choose one from <a href="http://maps.stamen.com/" target="_blank">maps.stamen.com</a> by using <code>http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png</code> just replace toner with your desired map style from stamen
+	<br>
+	<br>After that you may have to debug the maxNativeZoom level
+	<br>If you can zoom in all the way without the screen turning white then you're fine  
+	<br>If it turns white then increment the maxNativeZoom and refresh the page until it doesn't turn white on zoom in
 	<hr>
 	You may also want to remove the Address Search entirely, if for some reason you don't need it
 	<br>To do this you need to remove these chunks of code

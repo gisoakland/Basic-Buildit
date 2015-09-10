@@ -33,8 +33,9 @@
 		tableName: ["sewergrid"],
 		vizjson: "https://oakland.cartodb.com/u/oakland-admin/api/v2/viz/5a072d22-2a5c-11e5-a61d-42010a149c0c/viz.json"
 	}]</pre>
+	<hr>
 		<p>
-		<br>Case 1: Multiple layers within the single map/vizjson you added
+		Case 1: Multiple layers within the single map/vizjson you added
 		<br>&emsp;&emsp;If you have tried to add a map with multiple layers but can only access the data from one layer, this is your solution.
 		<br><br>Add a for loop in the cartodb.createLayer code around the 
 		<pre>
@@ -62,8 +63,8 @@
 			<pre>	tableName: ["sewergrid", "pipes", "sublayer03", "sublayer05"],</pre>
 			&emsp;Use the actual names of the layers in the order they're listed [1,2,3,4,5,6,7,8,9,10] on cartodb
 			<br>&emsp;&emsp;Documentation does not have to be done for the code to work(in this case), it is just highly recommended
-			<br>&emsp;&emsp;It is required if you want control over the visibility of the layers afterwards
-		<br><br>	
+			<br>&emsp;&emsp;It is required if you want control over the visibility of the layers afterwards	
+		<hr>
 		Case 2: multiple maps/vizjsons to add
 		<br>&emsp;&emsp;	So you want to add data from different sources eh?
 			
@@ -104,5 +105,73 @@
 			<br>Combine the information here with Case 1 to add multiple vizjsons with multiple layers within each vizjson.
 			<br><br>See <a href="https://github.com/gisoakland/DEC" target="_blank">https://github.com/gisoakland/DEC</a> for an example that uses both techniques 
 		</p>
+	<hr>
+	Adding Basemaps with a toggle
+	<br>Find this code block
+	<pre>
+	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		maxZoom:22,
+		maxNativeZoom:18 //zoom level to scale additional zoom layers
+	}).addTo(map_object);</pre>
+	Do the same thing listed in <a href="01-CreateFromTemplate.html" target="_blank">01-CreateFromTemplate.html</a> change the link and attribution
+	<br>In this case we want one or more basemaps and a toggle controller so we need to assign it to a variable that we can use later
+	<br>So add <code>var basemapName =</code> infront of <code>L.tileLayer</code>
+	<br>And if we want more than 1 basemap we need to remove the <code>.addTo(map_object);</code>
+	<br>Then copy and paste the code we just modified and replace the link/attribution with another basemap that you like
+	<br>It should now look like
+	<pre>
+	var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		maxZoom:22,
+		maxNativeZoom: 19
+	})
+	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		maxZoom:22,
+		maxNativeZoom: 18
+	})</pre>
+	for however many basemaps you like
+	<br>Because we ahve multiple layers and have to deal with leaflet/cartodb problems, we need to add a bit of code to make sure the basemap stays as the bottommost layer
+	<br> Add
+	<pre>
+	.on('load',function(){
+		Esri_WorldImagery.bringToBack();
+	});</pre>
+	To the bottom of each L.tileLayer to look like this
+	<pre>
+	var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+		maxZoom:22,
+		maxNativeZoom: 19
+	}).on('load',function(){
+		Esri_WorldImagery.bringToBack();
+	});
+	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		maxZoom:22,
+		maxNativeZoom: 18
+	}).on('load',function(){
+		DarkMatter.bringToBack();
+	});</pre>
+	We also need to define which one appears on map load, so we do add <code>.addTo(map_object);</code> back to one of the basemaps
+	<pre>
+	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		maxZoom:22,
+		maxNativeZoom: 18
+	}).on('load',function(){
+		DarkMatter.bringToBack();
+	}).addTo(map_object);</pre>
+	We then need to store the variables in an array
+	<pre>
+	var myBasemaps = {
+		'Dark Matter': DarkMatter,
+		'Esri World Imagery': Esri_WorldImagery
+	}</pre>
+	It should be in format 'Text Label': Variable Name
+	<br>Lastly add this line in
+	<pre>L.control.layers(myBasemaps, null, {collapsed:false, position:'bottomright'}).addTo(map_object);</pre>
+	You can modify the position to topleft, topright, bottomleft, or bottomright
 	</body>
 </html>
