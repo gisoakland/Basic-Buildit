@@ -14,6 +14,7 @@
 		</style>
 	</head>
 	<body>
+	<A NAME="CreateMap"></A>
 	Get the code <a href="https://github.com/gisoakland/Basic-Buildit/blob/master/01-Base.html" target="_blank">here</a>
 	<br>Open the code in any text editor, suggested <a href="https://notepad-plus-plus.org/" target="_blank">notepad++</a>
 	<br>Use Ctrl+F to find the code fragment listed here within the code
@@ -43,6 +44,7 @@
 	<br><img src="images/CartoDB.PNG" style="height:400px">
 	
 	<hr>
+	<A NAME="Styling"></A>
 	<h3>Styling the Page</h3>
 	TabName
 	<br><img src="images/tabname.PNG" style="height:50px">
@@ -91,7 +93,9 @@
 	This controls the color of the Zoom Buttons, change them the same way as the navbar
 	<br>
 	<br>As a note Hexcodes are a # sign followed by 6 digits/letters(A to F) and word colors do not require the # sign
+	
 	<hr>
+	<A NAME="ChangeBasemap"></A>
 	<h3>Changing the Basemap</h3>
 	<br>Find this code block
 	<pre>
@@ -106,13 +110,20 @@
 	<br>After that you may have to debug the maxNativeZoom level
 	<br>If you can zoom in all the way without the screen turning white then you're fine  
 	<br>If it turns white then increment the maxNativeZoom and refresh the page until it doesn't turn white on zoom in
+	
+	
 	<hr>
+	<A NAME="Debug"></A>
 	<h3>Debugging</h3>
 	Use any browser you like and press F12 after loading the page
 	<br>Errors should appear within the console at the bottom
 	<br>It takes some work to understand what the console says, but it should direct you to the line that has errors
 	<br>Or you can right click a specific part of the page and click inspect element if you notice something wrong with it
+	
+	
 	<hr>
+	<A NAME="RemoveAddress"></A>
+	<h3>Removing the Address Search Bar</h3>
 	You may also want to remove the Address Search entirely, if for some reason you don't need it
 	<br>To do this you need to remove these chunks of code
 	<pre>
@@ -120,6 +131,7 @@
 		&ltinput type="text" class="form-control" placeholder="Search By Address" id="pac-input" 
 		style="width:450px; background-color:#FFFFFF; color:#777777; border-color:#CCCCCC"&gt	
 	&lt/form&gt</pre>
+	Removing just this will remove the search bar from view but may or may not give errors on runtime
 	<pre>
 	#pac-input::-webkit-input-placeholder { 
 		color: gray; 
@@ -174,6 +186,6 @@
 &lt!--Geocoder End--&gt
 	</pre>
 	</span>
-	
 	</body>
+	<a href="index.html">Home</a>
 </html>

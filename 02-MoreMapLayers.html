@@ -14,6 +14,7 @@
 		</style>
 	</head>
 	<body>
+		<A NAME="Layers"></A>
 		The next thing you might want to do is have more than one layer added to your map.
 		In this case we will be modifying 
 		<pre>
@@ -35,7 +36,7 @@
 	}]</pre>
 	<hr>
 		<p>
-		Case 1: Multiple layers within the single map/vizjson you added
+		<b>Case 1: Multiple layers within the single map/vizjson you added</b>
 		<br>&emsp;&emsp;If you have tried to add a map with multiple layers but can only access the data from one layer, this is your solution.
 		<br><br>Add a for loop in the cartodb.createLayer code around the 
 		<pre>
@@ -65,7 +66,7 @@
 			<br>&emsp;&emsp;Documentation does not have to be done for the code to work(in this case), it is just highly recommended
 			<br>&emsp;&emsp;It is required if you want control over the visibility of the layers afterwards	
 		<hr>
-		Case 2: multiple maps/vizjsons to add
+		<b>Case 2: multiple maps/vizjsons to add</b>
 		<br>&emsp;&emsp;	So you want to add data from different sources eh?
 			
 		<br><br>Duplicate the cartodb.createLayer for every vizjson you have and increment the layerSource[0] > layerSource[1] and onwards
@@ -105,12 +106,15 @@
 			<br>Combine the information here with Case 1 to add multiple vizjsons with multiple layers within each vizjson.
 			<br><br>See <a href="https://github.com/gisoakland/DEC" target="_blank">https://github.com/gisoakland/DEC</a> for an example that uses both techniques 
 		</p>
+		
+
 	<hr>
-	Adding Basemaps with a toggle
-	<br>Find this code block
+	<A NAME="Basemaps"></A>
+	<h3>Adding Basemaps with a toggle</h3>
+	Find this code block
 	<pre>
 	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		attribution: '&copy; &lta href="http://www.openstreetmap.org/copyright"&gtOpenStreetMap&lt/a&gt contributors, &copy; &lta href="http://cartodb.com/attributions"&gtCartoDB&lt/a&gt',
 		maxZoom:22,
 		maxNativeZoom:18 //zoom level to scale additional zoom layers
 	}).addTo(map_object);</pre>
@@ -127,7 +131,7 @@
 		maxNativeZoom: 19
 	})
 	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		attribution: '&copy; &lta href="http://www.openstreetmap.org/copyright"&gtOpenStreetMap&lt/a&gt contributors, &copy; &lta href="http://cartodb.com/attributions"&gtCartoDB&lt/a&gt',
 		maxZoom:22,
 		maxNativeZoom: 18
 	})</pre>
@@ -148,7 +152,7 @@
 		Esri_WorldImagery.bringToBack();
 	});
 	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		attribution: '&copy; &lta href="http://www.openstreetmap.org/copyright"&gtOpenStreetMap&lt/a&gt contributors, &copy; &lta href="http://cartodb.com/attributions"&gtCartoDB&lt/a&gt',
 		maxZoom:22,
 		maxNativeZoom: 18
 	}).on('load',function(){
@@ -157,7 +161,7 @@
 	We also need to define which one appears on map load, so we do add <code>.addTo(map_object);</code> back to one of the basemaps
 	<pre>
 	var DarkMatter = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+		attribution: '&copy; &lta href="http://www.openstreetmap.org/copyright"&gtOpenStreetMap&lt/a&gt contributors, &copy; &lta href="http://cartodb.com/attributions"&gtCartoDB&lt/a&gt',
 		maxZoom:22,
 		maxNativeZoom: 18
 	}).on('load',function(){
@@ -174,4 +178,5 @@
 	<pre>L.control.layers(myBasemaps, null, {collapsed:false, position:'bottomright'}).addTo(map_object);</pre>
 	You can modify the position to topleft, topright, bottomleft, or bottomright
 	</body>
+	<a href="index.html">Home</a>
 </html>

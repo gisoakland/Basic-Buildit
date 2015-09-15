@@ -1,6 +1,7 @@
 <!--open in a browser-->
 <html>
 	<head>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 		<style type="text/css">
 			pre{
 				border: solid 1px #dedee3;
@@ -13,7 +14,8 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body style="margin:5px">
+	<A NAME="LayerToggle"></A>
 	<h3>Adding a layer toggle</h3>
 	Add this to the css, between the <code>&ltstyle type="text/css"&gt</code> and <code>&lt/style&gt</code>
 	<pre>
@@ -60,13 +62,9 @@
 	<pre>
 	&ltform class="navbar-form pull-right"&gt
 		&ltbutton type="button" class="btn btn-primary" id="layerModal"&gt
-			A BUTTON
+			&ltspan class="glyphicon glyphicon-th-list" aria-hidden="true"&gt&lt/span&gt
 		&lt/button&gt
 	&lt/form&gt</pre>
-	we can further improve it by replacing "A BUTTON" with an icon from <a href="http://getbootstrap.com/components/" target="_blank">here</a>
-	<pre>
-	&ltspan class="glyphicon glyphicon-th-list" aria-hidden="true"&gt&lt/span&gt</pre>
-	Just replace <code>class=""</code> with the icon name from the link
 	<br>Under <code>&ltdiv id="map"&gt&lt/div&gt</code> Paste
 	<pre>
 	&ltdiv id="myModal" class="modal fade" role="dialog"&gt
@@ -119,7 +117,9 @@
 			sublayers[this.value].hide();
 		}
 	});</pre>
+	
 	<hr>
+	<A NAME="Query"></A>
 	<h3>Adding a basic query</h3>
 	This allows you to search by 1 or more fields within 1 layer depending on how it is set up
 	<br>Between the <code>&lt/form&gt</code> and the <code>&lt/nav&gt</code> place
@@ -160,4 +160,40 @@
 	&lt!--Query End--&gt</pre>
 	See <a href="https://github.com/gisoakland/LayerSelector/blob/master/SidewalkDmg.html">this</a> for an example
 	</body>
+	
+	<hr>
+
+	<A NAME="CustomButtons"></A>
+	<h3>Button Customization</h3>
+	This is the first time we have created buttons, so here is a link with all the options
+	<a href="http://getbootstrap.com/components/" target="_blank">http://getbootstrap.com/components/</a>
+	<br>As you can see we can add pictures to the buttons instead of text and change the color of them
+	<br>Bootstrap's default colors are
+	<input type="button" class="btn btn-default" value="Default">
+	<input type="button" class="btn btn-primary" value="Primary">
+	<input type="button" class="btn btn-success" value="Success">
+	<input type="button" class="btn btn-info" value="Info">
+	<input type="button" class="btn btn-warning" value="Warning">
+	<input type="button" class="btn btn-danger" value="Danger">
+	<br>To use one of these we just need to change the button type
+	<br>Find 
+	<pre>
+	&ltinput type="button" class="btn btn-primary" value="Find" id="Find"&gt
+	&ltinput type="button" class="btn btn-primary" value="Clear" id="Clear"&gt</pre>
+	And replace primary with Default, Success, Info, Warning, or Danger
+	<br>If we want to fully customize the color, add a <code>style="background-color:red; color:#000000"</code> for whatever colors you would like
+	<pre>
+	&ltinput type="button" class="btn btn-primary" value="Find" id="Find" style="background-color:#012345; color:#FFFFFF"&gt</pre>
+	Instead of text we can use an icon provided by bootstrap or our own icons that we upload onto amazon 
+	<button type="button" class="btn btn-danger" id="button">
+		<span class="glyphicon glyphicon glyphicon-sunglasses" aria-hidden="true"></span>
+	</button>
+	<pre>
+	&ltbutton type="button" class="btn btn-primary" id="someID"&gt
+		&ltspan class="glyphicon glyphicon-th-list" aria-hidden="true"&gt&lt/span&gt
+	&lt/button&gt</pre>
+	Just change the <code>class="glyphicon icon"</code> to some other icon in the link above
+	As for changing the text on a button we jsut need to change the <code>value="Text"</code>
+	<hr>
+	<a href="index.html">Home</a>
 </html>
