@@ -92,7 +92,7 @@
 	<br>
 	<br>As a note Hexcodes are a # sign followed by 6 digits/letters(A to F) and word colors do not require the # sign
 	<hr>
-	Changing the Basemap
+	<h3>Changing the Basemap</h3>
 	<br>Find this code block
 	<pre>
 	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -106,6 +106,12 @@
 	<br>After that you may have to debug the maxNativeZoom level
 	<br>If you can zoom in all the way without the screen turning white then you're fine  
 	<br>If it turns white then increment the maxNativeZoom and refresh the page until it doesn't turn white on zoom in
+	<hr>
+	<h3>Debugging</h3>
+	Use any browser you like and press F12 after loading the page
+	<br>Errors should appear within the console at the bottom
+	<br>It takes some work to understand what the console says, but it should direct you to the line that has errors
+	<br>Or you can right click a specific part of the page and click inspect element if you notice something wrong with it
 	<hr>
 	You may also want to remove the Address Search entirely, if for some reason you don't need it
 	<br>To do this you need to remove these chunks of code
