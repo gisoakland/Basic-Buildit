@@ -78,12 +78,12 @@
 					&ltdiv class="checkbox"&gt
 						&lt!-- Value should be where your layer will be stored in the sublayer array--&gt
 						&lt!-- add "checked" if you want to have the layer visible when loaded, if you don't want the layer visible you will also need to sublayer.hide() it when you load it in--&gt
-						&ltinput name="layerselect" value="0" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
-						&emsp;gisadmin_sidewalkdamageapn_citywide&ltbr&gt
-						&ltinput name="layerselect" value="1" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
-						&emsp;sewergrid&ltbr&gt
-						&ltinput name="layerselect" value="2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
-						&emsp;sewerbasin&ltbr&gt
+						&ltinput name="layerselect" value="layerName0" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;Layer Title&ltbr&gt
+						&ltinput name="layerselect" value="LayerName1" type="checkbox" checked data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;Layer Title&ltbr&gt
+						&ltinput name="layerselect" value="LayerName2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt
+						&emsp;Layer Title&ltbr&gt
 					&lt/div&gt
 				&lt/div&gt
 				&ltdiv class="modal-footer" style="padding:5px; padding-right:20px"&gt
@@ -92,15 +92,20 @@
 			&lt/div&gt
 		&lt/div&gt
 	&lt/div&gt</pre>
-	Modify this code by copy and pasting or deleting <code>&ltinput name="layerselect" value="2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt &emsp;sewerbasin&ltbr&gt</code>
+	Modify this code by copy and pasting or deleting <code>&ltinput name="layerselect" value="LayerName2" type="checkbox" data-toggle="toggle" data-style="ios" data-class="fast" data-onstyle="info" data-size="mini" data-on=" " data-off=" "&gt &emsp;LayerTtile&ltbr&gt</code>
 	<br>Just increment the value for every additional layer you added to the map in the same order they are loaded in with cartodb.createlayer and make sure to name the layer exactly the same way as it is named on cartodb and where you add more layers to a map
 	<br>add <code>checked</code> if the layer is not hidden when loaded
 	<br>
 	<br>If you want a layer hidden on load in the <code>cartodb.createLayer</code>
-	<br>Do a <code>sublayer.hide();</code> after 
+	<br>Do a <code>sublayer.hide();</code> after loading it in with
 	<pre>
 	sublayer = layer.getSubLayer(n);
 	sublayers.push(sublayer);</pre>
+	Also under <code>var sublayers = [];</code>
+	Place a <code>var sublayersNames =[];</code>
+	And in the <code>cartodb.createLayer</code>
+	Add in <code>sublayersNames.push(layerSource[0].tableName[0]);</code> under <code>sublayers.push(sublayer);</code>
+	Replace the <code>tablename[0]</code> with <code>tableName[i]</code> if it is a loop and replace <code>layerSource[0]</code> with <code>layerSource[n]</code> where n is the count of how many times you called <code>cartodb.createLayer</code>
 	<br>
 	<br>Okay now that we've added the buttons, toggles, and windows, we need to wire up the objects so they do something when clicked
 	<br>Above <code>&lt!--Functions--&gt</code> add in 
@@ -111,12 +116,27 @@
 	
 	//class for toggles, 
 	$('input[name="layerselect"]').change(function(){
-		if($(this).is(":checked")){
-			sublayers[this.value].show();
-		}else{
-			sublayers[this.value].hide();
+		var layerVal = getSubLayer(this.value);
+		if(layerVal === -1){
+			alert('Error did not find table named ' + this.value);
+			return -1;
 		}
-	});</pre>
+		if($(this).is(":checked")){
+			sublayers[layerVal].show();
+		}else{
+			sublayers[layerVal].hide();
+		}
+	});
+	
+	function getSubLayer(layerName){
+		for(var i = 0; i < sublayersNames.length; i++){
+			if(sublayersNames[i] === layerName){
+				return i;
+			}
+		}
+		return -1;
+	}</pre>
+	I re-wrote this so it so its more dev friendly, uses value="layerName" and searches for it within the array, assuming you loaded it in correctly and didn't misspell it in the initialization and the value, it should find the table and return a position to search.
 	
 	<hr>
 	<A NAME="Query"></A>
@@ -193,7 +213,7 @@
 		&ltspan class="glyphicon glyphicon-th-list" aria-hidden="true"&gt&lt/span&gt
 	&lt/button&gt</pre>
 	Just change the <code>class="glyphicon icon"</code> to some other icon in the link above
-	As for changing the text on a button we jsut need to change the <code>value="Text"</code>
+	<br>As for changing the text on a button we jsut need to change the <code>value="Text"</code>
 	<hr>
 	<a href="index.html">Home</a>
 </html>
